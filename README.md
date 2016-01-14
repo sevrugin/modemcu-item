@@ -4,12 +4,13 @@
 При конфигурации по умолчанию (либо при невозможности подключиться к Wi-fi сети) модуль создает SOFTAP точку доступа с именем "Node-item-{node-name|chipId}" и паролем "123456" для переконфигурации. IP ноды: "10.0.0.1"
 
 Прием-передача данных осуществляется через UDP-сокет на порту 9898 в json-формате
-      {
+      ```{
             "module": "zal/*", # "zal/temperature", "kitchen/top-light"
             "command": "heap", # "ON", "OFF", "GET", "SET", "STATUS" - constant
             "value": "{value}",
             # custom data
       }
+      ```
 
 ### Общие комманды
       node/ping - броадкаст пинг всех нод. Вернуть название ноды [success,nodename]
