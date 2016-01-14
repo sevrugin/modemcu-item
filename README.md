@@ -6,29 +6,32 @@
 Прием-передача данных осуществляется через UDP-сокет на порту 9898 в json-формате
       
       {
-            "module": "zal/*", # "zal/temperature", "kitchen/top-light"
-            "command": "heap", # "ON", "OFF", "GET", "SET", "STATUS" - constant
+            "module": "*|home-zal|kitchen", # "home-zal/temperature", "kitchen/top-light"
+            "command": "heap|ping|restart", # "ON", "OFF", "GET", "SET", "STATUS" - constant
             "value": "{value}",
             # custom data
       }
 
-### Общие комманды
-      node/ping - броадкаст пинг всех нод. Вернуть название ноды [success,nodename]
-      node/restart - рестарт ноды
-      node/heap - размер свободной памяти
-      node/chipid - chip-id платы
+### Общие комманды (могут быть броадкаст)
+      ping - Вернуть chip-id и название ноды [success,nodename]
+      restart - рестарт ноды
+      heap - размер свободной памяти
+      chipid - chip-id платы
+      collectgarbage - почистить память
 
 ### Настройки ноды
-      configure/name/{NODE-NAME} - запросить или сохранить название ноды (уникальный транслит)
-      configure/description/{NODE-DESCRIPTION} - запросить или сохранить описание ноды (любой текст)
+      node-name - запросить или сохранить название ноды (уникальный транслит)
+      node-description - запросить или сохранить описание ноды (любой текст)
 
 ### Настройки Wifi
-      configure/wifi-ssid/{STATION-SSID} - запросить или установить SSID wi-fi точки
-      configure/wifi-password/{STATION-PASSWD} - запросить или установить пароль wi-fi точки
+      wifi-ssid - запросить или установить SSID wi-fi точки
+      wifi-password - запросить или установить пароль wi-fi точки
       
 ### Работа с файлами
-      file/get/config.json - скачать файл
-      file/set/config.json/{data} - загрузить файл
+      file-get {filename} - скачать файл
+      file-set {filename} - загрузить файл
+      file-compile {filename.lua} - скомпилировать файл
+      file-list - список файлов
 
 ## Пример полного конфиг-файла config.json
       {
