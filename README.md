@@ -47,6 +47,15 @@
                         "pin": "1",
                         "delay": 0, # Периодичность мониторинга и проверки смены статуса+отправка. 0-никогда
                   },
+                  # Аналоговый сенсор 0-1023. Броадкастит свой статус при delay>0
+                  # get - {"result": "succes", "value": 0-1023}
+                  # status - {"module": "home-zal/analog-sensor", "value": 0-1023}
+                  "analod-sensor":{
+                        "description": "Аналоговый сенсор 0-1023",
+                        "module": "analog-sensor",
+                        "pin": "0",
+                        "delay": 0, # Периодичность мониторинга и проверки смены статуса+отправка. 0-никогда
+                  },
                   # Датчик температуры-влажности dht22 с броадкастом состояния (если delay>0)
                   # get - {"result": "succes", "temperature": 10, "humidity": 76}
                   # status - {"module": "home-zal/temperature", "temperature": 10, "humidity": 76}
@@ -62,7 +71,8 @@
                         "description": "Выключатель"
                         "module": "switch",
                         "pin": "2",
-                        "delay": "0" # Плавность включения,
+                        "delay": "0", # Плавность включения,
+                        "broadcast-on-set": 0 # Броадкаст статуса при смене значения
                   },
                   # get - {"result": "succes", "value": "{percent}"}
                   # status|set - {"module": "home-zal/switch", "value": "{percent}"}
@@ -71,7 +81,8 @@
                         "module": "dimmer",
                         "pin": "3",
                         "min": 0,
-                        "max": 255
+                        "max": 255,
+                        "broadcast-on-set": 0 # Броадкаст статуса при смене значения
                   }
             }
       }
