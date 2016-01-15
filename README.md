@@ -33,7 +33,7 @@
       file-compile {filename.lua} - скомпилировать файл
       file-list - список файлов
 
-### Управление модулями {config-command.lua}
+### Настройка модулей {config-command.lua}
       module-list - список всех модулей
       module-types - возвращает все поддерживаемые типы модулей
       module-exists {modulename} - существует ли модуль с таким именем
