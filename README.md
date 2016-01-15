@@ -63,7 +63,7 @@
       }
       
 ### Примеры конфигураций для модулей
-      # File: config-dgt-sensor.json
+config-dgt-sensor.json
       # Цифровой сенсор 1/0. Отправляет броадкаст при смене статуса (если delay>0)
       # get - {"result": "succes", "value": 0/1}
       # status - {"module": "home-zal/dgt-sensor", "value": 0/1}
@@ -72,39 +72,54 @@
             "module": "dgt-sensor",
             "pin": "1",
             "delay": 0, # Периодичность мониторинга и проверки смены статуса+отправка. 0-никогда
+            "onchange": "broadcast" # броадкаст статуса при смене
       }
       
-      # File: config-analog-sensor.json
+config-analog-sensor.json
       # Аналоговый сенсор 0-1023. Броадкастит свой статус при delay>0
       # get - {"result": "succes", "value": 0-1023}
       # status - {"module": "home-zal/analog-sensor", "value": 0-1023}
-      "analod-sensor":{
+      {
             "description": "Аналоговый сенсор 0-1023",
             "module": "analog-sensor",
             "pin": "0",
+            "min": 0,
+            "max": 255,
+            "mapping-min": 0,
+            "mapping-max": 100,
+            "unit": "%"
             "delay": 0, # Периодичность мониторинга и проверки смены статуса+отправка. 0-никогда
-      },
+            "onchange": "broadcast" # броадкаст статуса при смене
+      }
+      
+config-temperature.json
       # Датчик температуры-влажности dht22 с броадкастом состояния (если delay>0)
-      # get - {"result": "succes", "temperature": 10, "humidity": 76}
-      # status - {"module": "home-zal/temperature", "temperature": 10, "humidity": 76}
-      "temperature":{
+      # get - {"result": "succes", "temperature": 10, "humidity": 76, "unit-temperature": "C", "unit-hummidity": "%"}
+      # status - {"module": "home-zal/temperature", "temperature": 10, "humidity": 76, "unit-temperature": "C", "unit-hummidity": "%"}
+      {
             "description": "Температура в гостиной",
             "module": "dht22",
+            "unit-temperature": "C",
+            "unit-hummidity": "%"
             "pin": "1",
             "delay": 0 # Частота отправки. 0-никогда
-      },
+      }
+      
+config-switch-led.json
       # get - {"result": "succes", "value": "ON/OFF"}
       # status|set - {"module": "home-zal/switch", "value": "ON/OFF"}
-      "switch-led":{
+      {
             "description": "Выключатель"
             "module": "switch",
             "pin": "2",
             "delay": "0", # Плавность включения,
-            "broadcast-on-set": 0 # Броадкаст статуса при смене значения
-      },
+            "onchange": false # Броадкаст статуса при смене значения
+      }
+      
+config-dimmer-led.json
       # get - {"result": "succes", "value": "{percent}"}
-      # status|set - {"module": "home-zal/switch", "value": "{percent}"}
-      "dimmer-led":{
+      # status|set - {"module": "home-zal/dimer", "value": "{percent}"}
+      {
             "description": "Диммер"
             "module": "dimmer",
             "pin": "3",
@@ -112,7 +127,6 @@
             "max": 255,
             "mapping-min": 0,
             "mapping-max": 100,
-            "broadcast-on-set": 0 # Броадкаст статуса при смене значения
+            "onchange": "broadcast" # Броадкаст статуса при смене значения
       }
-}
 
