@@ -63,7 +63,7 @@
       }
       
 ### Примеры конфигураций для модулей
-config-dgt-sensor.json
+####config-dgt-sensor.json
       # Цифровой сенсор 1/0. Отправляет броадкаст при смене статуса (если delay>0)
       # get - {"result": "succes", "value": 0/1}
       # status - {"module": "home-zal/dgt-sensor", "value": 0/1}
