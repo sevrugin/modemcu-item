@@ -12,34 +12,35 @@
             # custom data
       }
 
-### Общие комманды (могут быть броадкаст) {system-command.lua}
+### Общие комманды (могут быть броадкаст) {command-system.lua}
       ping - Вернуть chip-id и название ноды [success,nodename]
       restart - рестарт ноды
       heap - размер свободной памяти
       chipid - chip-id платы
       collectgarbage - почистить память
 
-### Настройки ноды {config-command.lua}
+### Настройки ноды {command-config.lua}
       node-name - запросить или сохранить название ноды (уникальный транслит)
       node-description - запросить или сохранить описание ноды (любой текст)
 
-### Настройки Wifi {config-command.lua}
+### Настройки Wifi {command-config.lua}
       wifi-ssid - запросить или установить SSID wi-fi точки
       wifi-password - запросить или установить пароль wi-fi точки
       
-### Работа с файлами {config-command.lua}
+### Работа с файлами {command-file.lua}
       file-get {filename} - скачать файл
       file-set {filename} - загрузить файл
       file-compile {filename.lua} - скомпилировать файл
       file-list - список файлов
 
-### Настройка модулей {config-command.lua}
+### Настройка модулей {command-module.lua}
       module-list - список всех модулей
       module-types - возвращает все поддерживаемые типы модулей
       module-exists {modulename} - существует ли модуль с таким именем
       module-get {modulename} - возвращает все настройки модуля (json). если модуль не существует возвращает success:false
       module-create {modulename} {moduletype} - создает модуль. если модуль с таким именем существует возвращает success:false
       module-edit {modulename} {module_config} - сохраняет настройки модуля. если модуль не существует возвращает success:false
+      module-reload {modulename} - инициализация модуля (например после редактирования конфига)
       module-delete {modulename} - удаляет модуль. если модуль не существует возвращает success:false
 
 ### Управление модулями (пр. home/modulename)
@@ -48,10 +49,15 @@
       GET - если модуль поодерживает GET возвращает текущее значение 
       SET - если модуль поодерживает SET устанавливает текущее значение (число или ON/OFF)
       STATUS - просит модуль заброадкастить свое состояние
-Если модуль не может выполнить комманду возвращает success:false
+Если модуль не может выполнить комманду возвращает {success:false}
 
 ### Поддерживаемые модули имеют маску module-{type}.lua
-
+      # Интерфейс каждого модуля
+      bool init(config) - инициализация модуля
+      obj get() - получить данные датчика: {value: 25}, {temperature: 26, unit: "C"}
+      bool set(value) - установить значение
+      bool status() - заказать броадкаст статуса
+      
 ## Файлы конфигураций
 
 ### Пример главного конфигурационного файла config.json
