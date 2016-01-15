@@ -63,7 +63,7 @@
       }
       
 ### Примеры конфигураций для модулей
-####config-dgt-sensor.json
+#### config-dgt-sensor.json
       # Цифровой сенсор 1/0. Отправляет броадкаст при смене статуса (если delay>0)
       # get - {"result": "succes", "value": 0/1}
       # status - {"module": "home-zal/dgt-sensor", "value": 0/1}
@@ -75,7 +75,7 @@
             "onchange": "broadcast" # броадкаст статуса при смене
       }
       
-config-analog-sensor.json
+#### config-analog-sensor.json
       # Аналоговый сенсор 0-1023. Броадкастит свой статус при delay>0
       # get - {"result": "succes", "value": 0-1023}
       # status - {"module": "home-zal/analog-sensor", "value": 0-1023}
@@ -92,7 +92,7 @@ config-analog-sensor.json
             "onchange": "broadcast" # броадкаст статуса при смене
       }
       
-config-temperature.json
+#### config-temperature.json
       # Датчик температуры-влажности dht22 с броадкастом состояния (если delay>0)
       # get - {"result": "succes", "temperature": 10, "humidity": 76, "unit-temperature": "C", "unit-hummidity": "%"}
       # status - {"module": "home-zal/temperature", "temperature": 10, "humidity": 76, "unit-temperature": "C", "unit-hummidity": "%"}
@@ -105,7 +105,7 @@ config-temperature.json
             "delay": 0 # Частота отправки. 0-никогда
       }
       
-config-switch-led.json
+#### config-switch-led.json
       # get - {"result": "succes", "value": "ON/OFF"}
       # status|set - {"module": "home-zal/switch", "value": "ON/OFF"}
       {
@@ -116,7 +116,7 @@ config-switch-led.json
             "onchange": false # Броадкаст статуса при смене значения
       }
       
-config-dimmer-led.json
+#### config-dimmer-led.json
       # get - {"result": "succes", "value": "{percent}"}
       # status|set - {"module": "home-zal/dimer", "value": "{percent}"}
       {
