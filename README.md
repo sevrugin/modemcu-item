@@ -14,7 +14,7 @@ IP ноды по умолчанию: "10.0.0.1"
             # custom data
       }
 
-### Общие комманды (могут быть броадкаст) <command-system.lua>
+### Общие комманды (могут быть броадкаст) [command-system.lua]
       ping - Вернуть chip-id и название ноды [success,nodename]
       restart - рестарт ноды
       heap - размер свободной памяти
