@@ -9,7 +9,7 @@ IP ноды по умолчанию: "10.0.0.1"
       
       {
             "module": "*|home-zal|kitchen|node-{chipid}", # "home-zal/temperature", "kitchen/top-light"
-            "command": "heap|ping|restart", # "ON", "OFF", "GET", "SET", "STATUS" - constant
+            "command": "heap|ping|restart", # "ON", "OFF", "GET", "SET", "STATUS", "INFO" - constant
             "value": "{value}",
             # custom data
       }
@@ -51,6 +51,7 @@ IP ноды по умолчанию: "10.0.0.1"
       GET - если модуль поодерживает GET возвращает текущее значение 
       SET - если модуль поодерживает SET устанавливает текущее значение (число или ON/OFF)
       STATUS - просит модуль заброадкастить свое состояние
+      INFO - устанавливается модулем когда он отсылает броадкаст-сообщение о состоянии. такие сообщения анализируются подписками
 Если модуль не может выполнить комманду возвращает {success:false}
 
 ### Поддерживаемые модули имеют маску [module-{type}.lua]
