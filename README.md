@@ -14,28 +14,28 @@ IP ноды по умолчанию: "10.0.0.1"
             # custom data
       }
 
-### Общие комманды (могут быть броадкаст) {command-system.lua}
+### Общие комманды (могут быть броадкаст) <command-system.lua>
       ping - Вернуть chip-id и название ноды [success,nodename]
       restart - рестарт ноды
       heap - размер свободной памяти
       chipid - chip-id платы
       collectgarbage - почистить память
 
-### Настройки ноды {command-config.lua}
+### Настройки ноды <command-config.lua>
       node-name - запросить или сохранить название ноды (уникальный транслит)
       node-description - запросить или сохранить описание ноды (любой текст)
 
-### Настройки Wifi {command-config.lua}
+### Настройки Wifi <command-config.lua>
       wifi-ssid - запросить или установить SSID wi-fi точки
       wifi-password - запросить или установить пароль wi-fi точки
       
-### Работа с файлами {command-file.lua}
+### Работа с файлами <command-file.lua>
       file-get {filename} - скачать файл
       file-set {filename} - загрузить файл
       file-compile {filename.lua} - скомпилировать файл
       file-list - список файлов
 
-### Настройка модулей {command-module.lua}
+### Настройка модулей <command-module.lua>
       module-list - список всех модулей
       module-types - возвращает все поддерживаемые типы модулей
       module-exists {modulename} - существует ли модуль с таким именем
@@ -45,7 +45,7 @@ IP ноды по умолчанию: "10.0.0.1"
       module-reload {modulename} - инициализация модуля (например после редактирования конфига)
       module-delete {modulename} - удаляет модуль. если модуль не существует возвращает success:false
 
-### Управление модулями (пр. home/modulename)
+### Управление модулями (пр. "home/modulename")
       ON - если модуль поддерживает SET ставит его в max положение
       OFF - если модуль поддерживает SET ставит его в min положение
       GET - если модуль поодерживает GET возвращает текущее значение 
@@ -53,7 +53,7 @@ IP ноды по умолчанию: "10.0.0.1"
       STATUS - просит модуль заброадкастить свое состояние
 Если модуль не может выполнить комманду возвращает {success:false}
 
-### Поддерживаемые модули имеют маску module-{type}.lua
+### Поддерживаемые модули имеют маску <module-{type}.lua>
       # Интерфейс каждого модуля
       bool init(config) - инициализация модуля
       obj get() - получить данные датчика: {value: 25}, {temperature: 26, unit: "C"}
@@ -62,7 +62,7 @@ IP ноды по умолчанию: "10.0.0.1"
       
 ## Файлы конфигураций
 
-### Пример главного конфигурационного файла config.json
+### Пример главного конфигурационного файла <config.json>
       {
             "node-name": "home-zal",
             "node-description": "Гостиная",
@@ -71,7 +71,7 @@ IP ноды по умолчанию: "10.0.0.1"
       }
       
 ### Примеры конфигураций для модулей
-#### config-dgt-sensor.json
+#### <config-dgt-sensor.json>
       # Цифровой сенсор 1/0. Отправляет броадкаст при смене статуса (если delay>0)
       # get - {"result": "succes", "value": 0/1}
       # status - {"module": "home-zal/dgt-sensor", "value": 0/1}
@@ -83,7 +83,7 @@ IP ноды по умолчанию: "10.0.0.1"
             "onchange": "broadcast" # броадкаст статуса при смене
       }
       
-#### config-analog-sensor.json
+#### <config-analog-sensor.json>
       # Аналоговый сенсор 0-1023. Броадкастит свой статус при delay>0
       # get - {"result": "succes", "value": 0-1023}
       # status - {"module": "home-zal/analog-sensor", "value": 0-1023}
@@ -100,7 +100,7 @@ IP ноды по умолчанию: "10.0.0.1"
             "onchange": "broadcast" # броадкаст статуса при смене
       }
       
-#### config-temperature.json
+#### <config-temperature.json>
       # Датчик температуры-влажности dht22 с броадкастом состояния (если delay>0)
       # get - {"result": "succes", "temperature": 10, "humidity": 76, "unit-temperature": "C", "unit-hummidity": "%"}
       # status - {"module": "home-zal/temperature", "temperature": 10, "humidity": 76, "unit-temperature": "C", "unit-hummidity": "%"}
@@ -113,7 +113,7 @@ IP ноды по умолчанию: "10.0.0.1"
             "delay": 0 # Частота отправки. 0-никогда
       }
       
-#### config-switch-led.json
+#### <config-switch-led.json>
       # get - {"result": "succes", "value": "ON/OFF"}
       # status|set - {"module": "home-zal/switch", "value": "ON/OFF"}
       {
@@ -124,7 +124,7 @@ IP ноды по умолчанию: "10.0.0.1"
             "onchange": false # Броадкаст статуса при смене значения
       }
       
-#### config-dimmer-led.json
+#### <config-dimmer-led.json>
       # get - {"result": "succes", "value": "{percent}"}
       # status|set - {"module": "home-zal/dimer", "value": "{percent}"}
       {
@@ -138,3 +138,20 @@ IP ноды по умолчанию: "10.0.0.1"
             "onchange": "broadcast" # Броадкаст статуса при смене значения
       }
 
+## Подписка на события
+#### Модуль может быть подписан на броадкаст-события от других модулей
+      subscribe-list - список всех подписок
+      subscribe-get {name} - конфиг подписки или false
+      subscribe-create {name} - создать подписку или false если уже есть
+      subscribe-edit {name} {json-data} - залить конфиг подписки или false если нету
+      subscribe-delete - удалиьт подписку
+
+#### Конфигурации хранятся в файлах вида <subscribe-{name}.json>
+      {
+            "name": "on_motion_detected", # уникальное название подписки
+            "ifmodule": "node-name/motion", # за кем следим
+            "op": "=", # =, !=, <, > - условие сверки
+            "ifvalue": 1, # значение сверки
+            "domodule": "light", # модуль нашей ноды
+            "setvalue": "ON" # установить значение
+      }
