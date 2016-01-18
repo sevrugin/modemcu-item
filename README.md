@@ -43,7 +43,7 @@ IP ноды по умолчанию: "10.0.0.1"
       module-create {modulename} {moduletype} - создает модуль. если модуль с таким именем существует возвращает success:false
       module-edit {modulename} {module_config} - сохраняет настройки модуля. если модуль не существует возвращает success:false
       module-reload {modulename} - инициализация модуля (например после редактирования конфига)
-      module-delete {modulename} - удаляет модуль. если модуль не существует возвращает success:false
+      module-remove {modulename} - удаляет модуль. если модуль не существует возвращает success:false
 
 ### Управление модулями (пр. "home/modulename")
       ON - если модуль поддерживает SET ставит его в max положение
@@ -121,6 +121,8 @@ IP ноды по умолчанию: "10.0.0.1"
             "description": "Выключатель"
             "module": "switch",
             "pin": "2",
+            "min": 0,
+            "max": 1023,
             "delay": "0", # Плавность включения,
             "onchange": false # Броадкаст статуса при смене значения
       }
@@ -145,7 +147,7 @@ IP ноды по умолчанию: "10.0.0.1"
       subscribe-get {name} - конфиг подписки или false
       subscribe-create {name} - создать подписку или false если уже есть
       subscribe-edit {name} {json-data} - залить конфиг подписки или false если нету
-      subscribe-delete - удалиьт подписку
+      subscribe-remove - удалиьт подписку
 
 #### Конфигурации хранятся в файлах вида [subscribe-{name}.json]
 Пример: влючить свет если сработал модуль движения (на выключение нужна отдельная настройка)
