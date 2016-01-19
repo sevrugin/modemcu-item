@@ -6,6 +6,7 @@
 IP ноды по умолчанию: "10.0.0.1"
 
 Прием-передача данных осуществляется через mqtt-протокол либо через http-POST запросы на 80 порт в json-формате 
+      
       topic: {node-location}{node-name}{command} # home/livingroom/temperature/STATUS
       message:
       {
