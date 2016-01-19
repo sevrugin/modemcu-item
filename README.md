@@ -6,7 +6,7 @@
 IP ноды по умолчанию: "10.0.0.1"
 
 Прием-передача данных осуществляется через mqtt-протокол либо через http-POST запросы на 80 порт в json-формате 
-      topic: {node-position}{node-name}{command} # home/livingroom/temperature/STATUS
+      topic: {node-location}{node-name}{command} # home/livingroom/temperature/STATUS
       message:
       {
             "command": "heap|ping|restart", # "ON", "OFF", "GET", "SET", "STATUS", "INFO" - constant
@@ -14,22 +14,22 @@ IP ноды по умолчанию: "10.0.0.1"
             "data": "{json}" # custom data
       }
 
-### Общие комманды (могут быть броадкаст) [command-system.lua]
+### Общие комманды подписаны на {node-location}+{command} но + проверяется на {node-name} или "all" [command-system.lua]
       ping - Вернуть chip-id и название ноды [success,nodename]
       restart - рестарт ноды
       heap - размер свободной памяти
       chipid - chip-id платы
       collectgarbage - почистить память
 
-### Настройки ноды [command-config.lua]
-      node-name - запросить или сохранить название ноды (уникальный транслит)
-      node-description - запросить или сохранить описание ноды (любой текст)
+### Настройки ноды [command-config.lua] - /home/livingroom/node-1234/node-name
+      node-name - сохранить название ноды (уникальный транслит)
+      node-description - сохранить описание ноды (любой текст)
 
 ### Настройки Wifi [command-config.lua]
-      wifi-ssid - запросить или установить SSID wi-fi точки
-      wifi-password - запросить или установить пароль wi-fi точки
+      wifi-ssid - установить SSID wi-fi точки
+      wifi-password - установить пароль wi-fi точки
       
-### Работа с файлами [command-file.lua]
+### Работа с файлами [command-file.lua] - /home/livingroom/node-1234/wifi-ssid
       file-get {filename} - скачать файл
       file-set {filename} - загрузить файл
       file-compile {filename.lua} - скомпилировать файл
