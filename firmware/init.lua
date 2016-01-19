@@ -2,6 +2,7 @@ collectgarbage()
 config = dofile("config.lua").read()
 
 nodeName = (config["node-name"])
+LOCATION = 'home/'--(config["node-location"])
 if nodeName == "" then
     nodeName = "node-"..node.chipid()
 end

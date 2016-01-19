@@ -1,6 +1,10 @@
 return {
   ping = function()
-    return {name=nodeName, chipid=node.chipid()}
+    local ip = wifi.sta.getip()
+    if ip == nil then
+        ip = wifi.ap.getip()
+    end
+    return {name=nodeName, ip=ip, chipid=node.chipid(), heap=node.heap()}
   end,
   restart = function()
     restartAfterDisconnect = true

@@ -24,68 +24,60 @@ function run(modulename, command, value, data)
     return result
 end
 
-function onRecieve(connection, request)
-    if request.module == nil then request.module = '' end
-    if request.command == nil then request.command = '' end
+function onRecieve(node, module, command, request)
+    if node == nil then return false; end
+    if module == nil then return false; end
+    if command == nil then command = '' end
     if request.value == nil then request.value = '' end
     if request.data == nil then request.data = {} end
     
     local response = {}
     
-    print(request.module..':'..request.command..':'..request.value)
-    local command = request.command:gsub("-", "_")
-    local node, module = request.module:match("([^/]+)[/]*([^/]*)")
-    if (node == '*' or node == nodeName) and module == '' then
-        if dofile('command-system.lua')[command] ~= nil then
-            response = run('command-system', command, request.value)
+    print(node..'/'..module..':'..command..':'..request.value)
+    local _command = command:gsub("-", "_")
+    if (node == '*' or node == nodeName) and module == 'system' then
+        if dofile('command-system.lua')[_command] ~= nil then
+            response = run('command-system', _command, request.value)
         elseif node ~= '*' then
-            if dofile('command-config.lua')[command] ~= nil then
-                response = run('command-config', command, request.value)
-            elseif dofile('command-file.lua')[command] ~= nil then
-                response = run('command-file', command, request.value, request.data)
-            elseif dofile('command-module.lua')[command] ~= nil then
-                response = run('command-module', command, request.value, request.data)
+            if dofile('command-config.lua')[_command] ~= nil then
+                response = run('command-config', _command, request.value)
+            elseif dofile('command-file.lua')[_command] ~= nil then
+                response = run('command-file', _command, request.value, request.data)
+            elseif dofile('command-module.lua')[_command] ~= nil then
+                response = run('command-module', _command, request.value, request.data)
             else
                 response.success = false
-                response.error = 'Command <'..request.command..'> not exists'
+                response.error = 'Command <'..command..'> not exists'
             end
         else
             response.success = false
-            response.error = 'Unknown command <'..request.command..'>'
+            response.error = 'Unknown command <'..command..'>'
         end
     elseif node == nodeName and module ~= nil then
         if file.open('module-'..module) and dofile('module-'..module)[request.command] ~= nil then
-            response = run('module-'..module, command, request.value)
+            response = run('module-'..module, _command, request.value)
         else
             response.success = false
             response.error = 'Module <'..'module-'..module..'> or command "'..request.command..'" not exists'
         end
     else
         response.success = false
-        response.error = 'Unknown module <'..request.module..'>'
+        response.error = 'Unknown module <'..module..'>'
     end
-    node = nil
-    module = nil
-    connection:send(cjson.encode(response))
-    response = nil
-    collectgarbage()
-end
     
+    return response
+end
+
 srv = net.createServer(net.TCP)
-srv:listen(9898,function(connection)
+srv:listen(80,function(connection)
     connection:on("receive",function(connection, payload)
-        local status, result = pcall(cjson.decode, payload)
-        if not status or type(result) ~= 'table' then
-            response = {}
-            response.success = false;
-            response.error = 'Can\'t parse request json'
-            connection:send(cjson.encode(response))
-            response = nil
-            collectgarbage()
-        else
-            onRecieve(connection, result)
-        end
-        status = nil
+       local request = dofile('http.lua')(payload)
+       local uri = request.uri
+       
+       local response = onRecieve(uri.node, uri.module, uri.command, request.json)
+
+       connection:send(cjson.encode(response))
+       collectgarbage()
     end)
     connection:on("sent",function(connection) 
         connection:close() 
