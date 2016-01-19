@@ -5,13 +5,13 @@
 
 IP ноды по умолчанию: "10.0.0.1"
 
-Прием-передача данных осуществляется через UDP-сокет на порту 9898 либо через http-POST запросы на 80 порт в json-формате
-      
+Прием-передача данных осуществляется через mqtt-протокол либо через http-POST запросы на 80 порт в json-формате 
+      topic: {node-position}{node-name}{command} # home/livingroom/temperature/STATUS
+      message:
       {
-            "module": "*|home-zal|kitchen|node-{chipid}", # "home-zal/temperature", "kitchen/top-light"
             "command": "heap|ping|restart", # "ON", "OFF", "GET", "SET", "STATUS", "INFO" - constant
             "value": "{value}",
-            # custom data
+            "data": "{json}" # custom data
       }
 
 ### Общие комманды (могут быть броадкаст) [command-system.lua]
