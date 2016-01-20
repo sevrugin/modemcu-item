@@ -8,6 +8,7 @@ if nodeName == "" then
 end
 print('NodeName: '..nodeName)
 
+-- Если не сконфигурирован wifi доступ нода запускается в режиме точки доступа
 if config["wifi-ssid"] == "" then
     print("WIFI SOFTAP")
     dofile("wifi.lua").createAP()
@@ -17,7 +18,9 @@ else
 end
 config = nil
 
+-- Запуск основной части сервера
 dofile("server.lua")
+
 collectgarbage()
 print("Heap:"..node.heap())
 

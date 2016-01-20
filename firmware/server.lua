@@ -68,6 +68,7 @@ function onRecieve(node, module, command, request)
     return response
 end
 
+-- запуск http-сервера
 srv = net.createServer(net.TCP)
 srv:listen(80,function(connection)
     connection:on("receive",function(connection, payload)
@@ -82,9 +83,39 @@ srv:listen(80,function(connection)
     connection:on("sent",function(connection) 
         connection:close() 
     end)
-    connection:on("disconnection",function(connection) 
+    connection:on("disconnection", function(connection) 
         if restartAfterDisconnect then
             node.restart()
         end
     end)
 end)
+
+-- запуск mqtt-клиента
+_, _, geteway = wifi.sta.getip()
+if geteway ~= nil then
+	m = mqtt.Client(nodeName, 120, "", "")
+	m:lwt("/lwt", "offline", 0, 0)
+
+	m:on("connect", function(connection)
+	  print ("connected") 
+	end)
+	m:on("offline", function(conection) 
+	  print ("offline") 
+	end)
+	m:on("message", function(connection, topic, data) 
+	  print(topic .. ":" ) 
+	  if data ~= nil then
+	    --print(data)
+	    static responseTopic = LOCATION..node-name..'/{module}/INFO'
+	    m:publish(responseTopic, "hello", 0, 0, function(conn) 
+	      print("sent") 
+	    end)
+	  end
+	end)
+	m:connect(geteway, 1880, 0, function(conn) 
+	  print("connected") 
+	end)
+	m:subscribe(LOCATION.."#", 0, function(conn) 
+	  print("subscribe success") 
+	end)
+end

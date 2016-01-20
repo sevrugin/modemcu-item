@@ -1,3 +1,4 @@
+-- Утилита для чтения-записи конфигурациого файла
 return {
     asString = function ()
         file.open("config.json", "r")

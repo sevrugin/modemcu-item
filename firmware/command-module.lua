@@ -1,27 +1,28 @@
+-- Работа с модулями ноды
 return {
-  module_libraries = function()
+  module_libraries = function() -- список поддерживаемых библиотек 
     result = {}
     local list = file.list()
     for name in pairs(list) do
-        tmp = name:match('^lib.([a-z]+).l')
+        tmp = name:match('^lib.([a-z]+).l') -- маска библиотек: lib-{name}.lua/.lc
         if tmp ~= nil then
             table.insert(result, tmp)
         end
     end
     return {value=result}
   end,
-  module_list = function()
+  module_list = function() -- список сохраненных модулей
     result = {}
     local list = file.list()
     for name in pairs(list) do
-        tmp = name:match('^module.([a-z-]+).json')
+        tmp = name:match('^module.([a-z-]+).json') -- маска настроек для модулей: module-{name}.json
         if tmp ~= nil then
             table.insert(result, tmp)
         end
     end
     return {value=result}
   end,
-  module_get = function(name)
+  module_get = function(name) -- получить конфигурацию модуля
     local data = nil
     filename = 'module-'..name..'.json'
     if (file.open(filename, 'r')) then
@@ -32,11 +33,11 @@ return {
     end
     return {value=data}
   end,
-  module_create = function(name, data)
+  module_create = function(name, data) -- создать модуль с указанием типа библиотеки
     if type(data) ~= 'table' or data.lib == nil or data.title == nil then
         return {error='data: must have "lib" and "title" parameter'}
     end
-    --check module type
+    -- check module library
     if not file.open('lib-'..data.lib..'.lua', 'r') then
         return {error='Library not exests'}
     end
@@ -57,7 +58,7 @@ return {
     
     return {message='Module successfuly created'}
   end,
-  module_edit = function(name, data)
+  module_edit = function(name, data) -- сохранить настройку модуля
     -- check if config already exists
     local filename = 'module-'..name..'.json'
     if not file.open(filename, 'r') then
@@ -85,7 +86,7 @@ return {
     file.close()
     return {message='Module successfuly saved'}
   end,
-  module_remove = function(name)
+  module_remove = function(name) -- удалить модуль
     filename = 'module-'..name..'.json'
     if (file.open(filename, 'r')) then
         data = file.read()
