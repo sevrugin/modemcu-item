@@ -22,23 +22,6 @@ local function getRequestData(payload)
     return requestData
 end
 
--- парсинг строки запроса на состовляющие /{LOCATION}/{node-name}/{command}
-local function parseUri(uri)
-   local r = {}
-   uri = uri:match('^[/]*(.*)[/]*$')
-   --print('uri: '..uri)
-   local pattern = "^"..LOCATION.."([^/]+)[/]*([^/]*)[/]*([^/]*)$"
-   --print('pattern: '..pattern)
-   local node, module, command = uri:match(pattern)
-   --print('nodename: '..nodename)
-   --print('command: '..command)
-   r.node = node
-   r.module = module
-   r.command = command
-   
-   return r
-end
-
 -- Преобразует заголовок http-запроса в набор параметров
 return function (request)
    --print(request)

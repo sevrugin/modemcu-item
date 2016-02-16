@@ -1,6 +1,8 @@
 collectgarbage()
 config = dofile("config.lua").read()
 
+ip = nil
+geteway = nil
 nodeName = (config["node-name"])
 LOCATION = 'home/'--(config["node-location"])
 if nodeName == "" then
